@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Company from './models/Company.js';
 
-dotenv.config();
+dotenv.config({ path: './server/.env' });
 await mongoose.connect(process.env.MONGO_URI);
 
 const companies = [
