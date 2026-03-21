@@ -1,7 +1,7 @@
 import User from '../models/User.js';
 import { generateToken, cookieOptions } from '../utils/generateToken.js';
 import { sendWelcome } from '../utils/mailer.js';
-
+// register working
 export const register = async (req, res) => {
   const { name, email, password, branch, college, gradYear, role } = req.body
   if (await User.findOne({ email }))
