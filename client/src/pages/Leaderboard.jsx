@@ -57,7 +57,7 @@ export default function Leaderboard() {
       {!selected && <div className="text-center py-20 text-gray-400">Select a company to see the leaderboard</div>}
       {loading && <div className="text-center py-10 text-gray-400">Loading...</div>}
       {!loading && selected && data.length > 0 && <LeaderboardTable data={data} myRank={myRank} />}
-      {!loading && selected && data.length === 0 && <div className="text-center py-10 text-gray-400">No scores yet for this company. Be the first!</div>}
+      {!loading && selected && data.length === 0 && <div className="text-center py-10 text-gray-400">No scores yet for this company. Be the first one!</div>}
     </div>
   )
 }
