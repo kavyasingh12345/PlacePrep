@@ -49,7 +49,7 @@ export const getLeaderboard = async (req, res) => {
 
   res.json({ leaderboard, myRank: myRank || null })
 }
-
+// adding scores
 export const getMyScores = async (req, res) => {
   try {
     const scores = await Score.find({ user: req.user._id })
