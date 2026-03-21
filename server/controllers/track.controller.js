@@ -1,6 +1,6 @@
 import Track from '../models/Track.js';
 import Enrollment from '../models/Enrollment.js';
-
+// get tracks
 export const getTracksByCompany = async (req, res) => {
   const isAdmin = req.user?.role === 'admin'
 
