@@ -23,12 +23,18 @@ export default function Navbar() {
             <Link to="/leaderboard" className="text-gray-600 hover:text-indigo-600 transition">Leaderboard</Link>
             <Link to="/progress"    className="text-gray-600 hover:text-indigo-600 transition">My Progress</Link>
             {user.role === 'instructor' && (
-              <Link to="/instructor" className="text-gray-600 hover:text-indigo-600 transition">Dashboard</Link>
-            )}
-            {user.role === 'admin' && (
-              <Link to="/admin" className="text-gray-600 hover:text-indigo-600 transition">Admin</Link>
-            )}
-            <Link to="/dashboard" className="flex items-center gap-2">
+  <Link to="/instructor" className="text-gray-600 hover:text-green-600 transition">Instructor</Link>
+)}
+{user.role === 'admin' && (
+  <>
+    <Link to="/instructor" className="text-gray-600 hover:text-green-600 transition">Instructor</Link>
+    <Link to="/admin" className="text-gray-600 hover:text-red-500 transition">Admin</Link>
+  </>
+)}<Link to={
+  user.role === 'admin' ? '/admin' :
+  user.role === 'instructor' ? '/instructor' :
+  '/dashboard'
+} className="flex items-center gap-2">
               {user.avatar
                 ? <img src={user.avatar} alt={user.name} className="w-8 h-8 rounded-full object-cover" />
                 : <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-semibold text-xs">{user.name[0]}</div>

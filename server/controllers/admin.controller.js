@@ -46,10 +46,16 @@ export const sendDriveAlertToAll = async (req, res) => {
 };
 
 export const approveTrack = async (req, res) => {
-  const track = await Track.findByIdAndUpdate(
-    req.params.id,
-    { status: 'published' },
-    { new: true }
-  );
-  res.json(track);
+  try {
+    const newStatus = req.body?.status || 'published';
+    const track = await Track.findByIdAndUpdate(
+      req.params.id,
+      { status: newStatus },
+      { new: true }
+    );
+    if (!track) return res.status(404).json({ message: 'Track not found' });
+    res.json(track);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };

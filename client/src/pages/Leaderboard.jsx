@@ -18,8 +18,25 @@ export default function Leaderboard() {
   useEffect(() => {
     if (!selected) return
     setLoading(true)
-    api.get('/leaderboard', { params: { companyId: selected } })
-      .then(res => { setData(res.leaderboard); setMyRank(res.myRank) })
+    
+    // First get tracks for this company, then fetch leaderboard by track
+    api.get(`/tracks/company/${selected}`)
+      .then(tracks => {
+        if (tracks.length === 0) {
+          setData([])
+          setLoading(false)
+          return
+        }
+        // Use first track's ID to query scores
+        const trackId = tracks[0]._id
+        return api.get('/leaderboard', { params: { trackId } })
+      })
+      .then(res => {
+        if (res) {
+          setData(res.leaderboard || [])
+          setMyRank(res.myRank)
+        }
+      })
       .finally(() => setLoading(false))
   }, [selected])
 

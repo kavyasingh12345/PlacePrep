@@ -30,13 +30,17 @@ export default function MockTest() {
   const handleSubmit = async () => {
     if (!window.confirm('Submit test? You cannot change answers after this.')) return
     const timeTaken = Math.floor((Date.now() - startTime.current) / 1000)
-    const result = await testService.submit({
-      testId,
-      userAnswers: answers,
-      timeTaken,
-      companyId: test.companyId,
-    })
-    navigate(`/test/result/${result.resultId}`, { state: result })
+    try {
+      const result = await testService.submit({
+        testId,
+        userAnswers: answers,
+        timeTaken,
+        companyId: test.companyId || null,
+      })
+      navigate(`/test/result/${result.resultId}`, { state: result })
+    } catch (err) {
+      alert('Failed to submit: ' + (err.message || 'Server error'))
+    }
   }
 
   if (loading) return <div className="flex items-center justify-center min-h-screen text-gray-400">Loading test...</div>

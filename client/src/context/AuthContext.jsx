@@ -15,10 +15,29 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false))
   }, [])
 
-  const login    = async (creds) => { const u = await authService.login(creds);    setUser(u.user); return u }
-  const register = async (data)  => { const u = await authService.register(data);  setUser(u.user); return u }
-  const logout   = async ()      => { await authService.logout(); setUser(null) }
-  const updateUser = (data)      => setUser(prev => ({ ...prev, ...data }))
+  const login = async (creds) => {
+    const data = await authService.login(creds)
+    // API returns { user: {...} } and axios interceptor returns data directly
+    // so data = { user: {...} }, meaning data.user is the actual user
+    const user = data.user || data
+    console.log('actual user:', user)
+    setUser(user)
+    return user
+  }
+  
+  const register = async (formData) => {
+    const data = await authService.register(formData)
+    const user = data.user || data
+    console.log('actual user:', user)
+    setUser(user)
+    return user
+  }
+  const logout = async () => {
+    await authService.logout()
+    setUser(null)
+  }
+
+  const updateUser = (data) => setUser(prev => ({ ...prev, ...data }))
 
   return (
     <AuthContext.Provider value={{ user, loading, login, register, logout, updateUser }}>

@@ -1,32 +1,47 @@
 import crypto from 'crypto';
-import { razorpay } from '../utils/razorpay.js';
+import { getRazorpay } from '../utils/razorpay.js';
 import Enrollment from '../models/Enrollment.js';
 import Track from '../models/Track.js';
 import { sendEnrollmentConfirmation } from '../utils/mailer.js';
 
 export const createOrder = async (req, res) => {
-  const { trackId } = req.body;
-  const track = await Track.findById(trackId).populate('company', 'name');
-  if (!track) return res.status(404).json({ message: 'Track not found' });
+  try {
+    const { trackId } = req.body
+    if (!trackId) return res.status(400).json({ message: 'trackId is required' })
 
-  const amount = 49900; // ₹499 in paise — adjust as needed
+    const track = await Track.findById(trackId).populate('company', 'name')
+    if (!track) return res.status(404).json({ message: 'Track not found' })
 
-  const order = await razorpay.orders.create({
-    amount,
-    currency: 'INR',
-    receipt:  `receipt_${req.user._id}_${trackId}`,
-  });
+    // Create razorpay instance here so env is already loaded
+    const razorpay = getRazorpay()
 
-  // Create pending enrollment
-  await Enrollment.findOneAndUpdate(
-    { user: req.user._id, track: trackId },
-    { razorpayOrderId: order.id, paymentStatus: 'pending', amount: amount / 100 },
-    { upsert: true }
-  );
+    console.log('Razorpay Key:', process.env.RAZORPAY_KEY_ID)
 
-  res.json({ orderId: order.id, amount, currency: 'INR', trackTitle: track.title });
-};
+    const amount = 49900
 
+    const order = await razorpay.orders.create({
+      amount,
+      currency: 'INR',
+      receipt:  `rcpt_${Date.now()}`,
+    })
+
+    await Enrollment.findOneAndUpdate(
+      { user: req.user._id, track: trackId },
+      { razorpayOrderId: order.id, paymentStatus: 'pending', amount: amount / 100 },
+      { upsert: true }
+    )
+
+    res.json({
+      orderId:    order.id,
+      amount:     order.amount,
+      currency:   order.currency,
+      trackTitle: track.title,
+    })
+  } catch (err) {
+    console.error('Razorpay error:', err.message)
+    res.status(500).json({ message: err.message })
+  }
+}
 export const verifyPayment = async (req, res) => {
   const { razorpayOrderId, razorpayPaymentId, razorpaySignature, trackId } = req.body;
 

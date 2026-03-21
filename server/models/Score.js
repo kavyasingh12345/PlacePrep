@@ -4,7 +4,7 @@ const scoreSchema = new mongoose.Schema({
   user:       { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   mockTest:   { type: mongoose.Schema.Types.ObjectId, ref: 'MockTest', required: true },
   track:      { type: mongoose.Schema.Types.ObjectId, ref: 'Track', required: true },
-  company:    { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
+  company:    { type: mongoose.Schema.Types.ObjectId, ref: 'Company'},
   score:      { type: Number, required: true },
   maxScore:   { type: Number, required: true },
   percentage: { type: Number, required: true },
