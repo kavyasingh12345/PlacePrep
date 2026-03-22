@@ -21,6 +21,7 @@ import enrollRoutes      from './routes/enrollment.routes.js';
 import paymentRoutes     from './routes/payment.routes.js';
 import adminRoutes       from './routes/admin.routes.js';
 import progressRoutes    from './routes/progress.routes.js';
+import resumeRoutes      from './routes/resume.routes.js'
 import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
@@ -44,6 +45,7 @@ app.use('/api/enrollments', enrollRoutes);
 app.use('/api/payments',    paymentRoutes);
 app.use('/api/admin',       adminRoutes);
 app.use('/api/progress',    progressRoutes);
+app.use('/api/resume', resumeRoutes)
 app.use(errorHandler);
 
 mongoose.connect(process.env.MONGO_URI)
