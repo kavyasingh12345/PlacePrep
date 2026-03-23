@@ -1,10 +1,34 @@
-
+import PDFParser from 'pdf2json'
 import { analyzeResume } from '../utils/groq.js'
 import Company from '../models/Company.js'
-import { createRequire } from 'module'
 
-const require = createRequire(import.meta.url)
-const pdfParse = require('pdf-parse')
+const extractTextFromPDF = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const pdfParser = new PDFParser()
+
+    pdfParser.on('pdfParser_dataError', err => reject(err))
+
+    pdfParser.on('pdfParser_dataReady', pdfData => {
+      try {
+        const text = pdfData.Pages.map(page =>
+          page.Texts.map(t => {
+            try {
+              return decodeURIComponent(t.R.map(r => r.T).join(' '))
+            } catch {
+              // If decoding fails, return raw text as-is
+              return t.R.map(r => r.T).join(' ')
+            }
+          }).join(' ')
+        ).join('\n')
+        resolve(text)
+      } catch (err) {
+        reject(err)
+      }
+    })
+
+    pdfParser.parseBuffer(buffer)
+  })
+}
 
 export const analyzeResumeController = async (req, res) => {
   try {
@@ -18,23 +42,22 @@ export const analyzeResumeController = async (req, res) => {
       return res.status(400).json({ message: 'Please select a company' })
     }
 
-    // Get company details
     const company = await Company.findById(companyId)
     if (!company) {
       return res.status(404).json({ message: 'Company not found' })
     }
 
-    // Extract text from PDF
-    const pdfData = await pdfParse(req.file.buffer)
-    const resumeText = pdfData.text
+    // Extract text from PDF buffer
+    const resumeText = await extractTextFromPDF(req.file.buffer)
 
     if (!resumeText || resumeText.trim().length < 50) {
-      return res.status(400).json({ message: 'Could not extract text from PDF. Make sure it is not a scanned image.' })
+      return res.status(400).json({
+        message: 'Could not extract text from PDF. Make sure it is a text-based PDF not a scanned image.'
+      })
     }
 
-    console.log(`Analyzing resume for ${company.name}...`)
+    console.log(`Analyzing resume for ${company.name}, text length: ${resumeText.length}`)
 
-    // Send to Groq for analysis
     const analysis = await analyzeResume({
       resumeText,
       companyName:   company.name,
