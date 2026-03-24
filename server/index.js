@@ -4,8 +4,6 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
-dotenv.config();
-
 import passport from 'passport';
 import './config/passport.js';
 
@@ -25,7 +23,7 @@ import resumeRoutes      from './routes/resume.routes.js'
 import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
-
+console.log("ENV PATH TEST:", process.cwd());
 const app = express();
 
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
