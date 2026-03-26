@@ -31,8 +31,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
 
-app.get("/test", (req, res) => {
-  res.send("Test route working ✅");
+app.get("/", (req, res) => {
+  res.send("PlacePrep API is running 🚀");
 });
 
 app.use('/api/auth',        authRoutes);
