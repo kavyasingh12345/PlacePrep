@@ -23,13 +23,17 @@ import resumeRoutes      from './routes/resume.routes.js'
 import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
-console.log("ENV PATH TEST:", process.cwd());
 const app = express();
+
 
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
+
+app.get("/test", (req, res) => {
+  res.send("Test route working ✅");
+});
 
 app.use('/api/auth',        authRoutes);
 app.use('/api/companies',   companyRoutes);
