@@ -5,9 +5,9 @@ export const generateToken = (userId) =>
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
-export const cookieOptions = {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'strict',
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-};
+  export const cookieOptions = {
+    httpOnly: true,
+    secure:   process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+    maxAge:   7 * 24 * 60 * 60 * 1000,
+  }
