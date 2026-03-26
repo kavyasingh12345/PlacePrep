@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import api from '../services/api.js'
-import { companyService } from '../services/companyservice.js'
+import { companyService } from '../services/temp123.js'
 
 const ROUNDS = ['aptitude', 'technical', 'verbal', 'hr', 'coding']
 const DIFFICULTIES = ['easy', 'medium', 'hard']

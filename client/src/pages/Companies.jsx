@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { companyService } from '../services/companyservice.js'
+import { companyService } from '../services/temp123.js'
 import CompanyCard from '../components/CompanyCard.jsx'
 
 const BRANCHES = ['All', 'CSE', 'IT', 'ECE', 'EEE', 'Mech']

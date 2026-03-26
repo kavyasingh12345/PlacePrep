@@ -5,7 +5,7 @@ import { trackService } from "../services/trackService.js";
 import { testService } from "../services/testService.js";
 import ProgressBar from "../components/ProgressBar.jsx";
 import ResumeAnalyzer from "../components/ResumeAnalyzer.jsx";
-import { companyService } from "../services/companyservice.js";
+import { companyService } from "../services/temp123.js";
 
 export default function Dashboard() {
   const { user } = useAuth();
