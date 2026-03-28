@@ -2,7 +2,6 @@
 
 > A company-specific placement preparation platform for college students — built with the MERN stack.
 
-![PlacePrep](https://img.shields.io/badge/MERN-Stack-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![Status](https://img.shields.io/badge/status-Live-brightgreen)
 
 ## 📸 Screenshots
 
