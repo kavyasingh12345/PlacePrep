@@ -25,8 +25,8 @@ import { errorHandler } from './middleware/error.middleware.js';
 dotenv.config();
 const app = express();
 const allowedOrigins = [
-  process.env.CLIENT_URL,
-  'http://localhost:5173'
+  "https://place-prep-ten.vercel.app",
+  "http://localhost:5173"
 ];
 
 app.use(cors({
@@ -42,6 +42,11 @@ app.use(cors({
   credentials: true
 }));
 
+// ✅ HANDLE PREFLIGHT PROPERLY
+app.options('*', cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
