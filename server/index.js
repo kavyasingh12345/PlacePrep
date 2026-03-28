@@ -25,22 +25,21 @@ import { errorHandler } from './middleware/error.middleware.js';
 dotenv.config();
 const app = express();
 app.use(cors({
-  origin: function(origin, callback) {
-    const allowed = [
+  origin: function (origin, callback) {
+    const allowedOrigins = [
       process.env.CLIENT_URL,
-      'http://localhost:5173',
-      'https://place-prep-ten.vercel.app',
-    ]
-    if (!origin || allowed.includes(origin)) {
-      callback(null, true)
+      "http://localhost:5173"
+    ];
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'))
+      callback(new Error("CORS not allowed"));
     }
   },
-  credentials: true,
-}))
-
-console.log("CORS FIX APPLIED");
+  credentials: true
+}));
+app.options('*', cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
