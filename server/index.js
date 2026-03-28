@@ -24,8 +24,11 @@ import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
 const app = express();
+console.log("CLIENT_URL:", process.env.CLIENT_URL);
 app.use(cors({
   origin: function (origin, callback) {
+    console.log("Incoming Origin:", origin);
+
     const allowedOrigins = [
       process.env.CLIENT_URL,
       "http://localhost:5173"
