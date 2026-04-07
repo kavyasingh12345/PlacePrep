@@ -17,101 +17,37 @@ export default function Navbar() {
       </Link>
 
       <div className="flex items-center gap-6 text-sm">
-        {user ? (
-          <>
-            <Link
-              to="/dashboard"
-              className="text-gray-600 hover:text-indigo-600 transition"
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/companies"
-              className="text-gray-600 hover:text-indigo-600 transition"
-            >
-              Companies
-            </Link>
-            <Link
-              to="/leaderboard"
-              className="text-gray-600 hover:text-indigo-600 transition"
-            >
-              Leaderboard
-            </Link>
-            <Link
-              to="/progress"
-              className="text-gray-600 hover:text-indigo-600 transition"
-            >
-              My Progress
-            </Link>
-            {user.role === "instructor" && (
-              <Link
-                to="/instructor"
-                className="text-gray-600 hover:text-green-600 transition"
-              >
-                Instructor
-              </Link>
-            )}
-            {user.role === "admin" && (
-              <>
-                <Link
-                  to="/instructor"
-                  className="text-gray-600 hover:text-green-600 transition"
-                >
-                  Instructor
-                </Link>
-                <Link
-                  to="/admin"
-                  className="text-gray-600 hover:text-red-500 transition"
-                >
-                  Admin
-                </Link>
-              </>
-            )}
-            <Link
-              to={
-                user.role === "admin"
-                  ? "/admin"
-                  : user.role === "instructor"
-                  ? "/instructor"
-                  : "/dashboard"
-              }
-              className="flex items-center gap-2"
-            >
-              {user.avatar ? (
-                <img
-                  src={user.avatar}
-                  alt={user.name}
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-semibold text-xs">
-                  {user.name[0]}
-                </div>
-              )}
-            </Link>
-            <button
-              onClick={handleLogout}
-              className="text-gray-500 hover:text-red-500 transition text-xs"
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link
-              to="/login"
-              className="text-gray-600 hover:text-indigo-600 transition"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="bg-indigo-600 text-white px-4 py-1.5 rounded-full text-sm hover:bg-indigo-700 transition"
-            >
-              Get Started
-            </Link>
-          </>
-        )}
+      {user ? (
+  <>
+    {/* STUDENT NAVBAR */}
+    {user.role === "student" && (
+      <>
+        <Link to="/dashboard">Dashboard</Link>
+        <Link to="/companies">Companies</Link>
+        <Link to="/leaderboard">Leaderboard</Link>
+        <Link to="/progress">My Progress</Link>
+      </>
+    )}
+
+    {/* INSTRUCTOR NAVBAR */}
+    {user.role === "instructor" && (
+      <Link to="/instructor">Instructor Dashboard</Link>
+    )}
+
+    {/* ADMIN NAVBAR */}
+    {user.role === "admin" && (
+      <Link to="/admin">Admin Dashboard</Link>
+    )}
+
+    {/* Avatar + Logout */}
+    <button onClick={handleLogout}>Logout</button>
+  </>
+) : (
+  <>
+    <Link to="/login">Login</Link>
+    <Link to="/register">Register</Link>
+  </>
+)}
       </div>
     </nav>
   );

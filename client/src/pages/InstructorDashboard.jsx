@@ -455,7 +455,7 @@ export default function InstructorDashboard() {
                       className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-green-400 transition" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Video URL (Cloudinary / YouTube)</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Video URL (YouTube)</label>
                     <input value={lesson.videoUrl}
                       onChange={e => setLesson(p => ({ ...p, videoUrl: e.target.value }))}
                       placeholder="https://..."

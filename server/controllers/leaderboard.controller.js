@@ -30,6 +30,7 @@ export const getLeaderboard = async (req, res) => {
       },
     },
     { $unwind: '$user' },
+    { $match: { 'user.role': 'student' } },
     {
       $project: {
         'user.name':    1,
@@ -52,6 +53,7 @@ export const getLeaderboard = async (req, res) => {
 // adding scores
 export const getMyScores = async (req, res) => {
   try {
+    if (req.user.role !== 'student') return res.json([])
     const scores = await Score.find({ user: req.user._id })
       .populate('mockTest', 'title duration totalQuestions')
       .populate('company', 'name logo')

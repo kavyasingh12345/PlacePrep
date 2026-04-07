@@ -23,7 +23,7 @@ export const createLesson = async (req, res) => {
     order,
     isFree,
     description,
-    videoUrl:      req.files?.video?.[0]?.path || '',
+    videoUrl: req.body.videoUrl || req.files?.video?.[0]?.path || '',
     videoPublicId: req.files?.video?.[0]?.filename || '',
     notesUrl:      req.files?.notes?.[0]?.path || '',
     duration:      req.body.duration || 0,
