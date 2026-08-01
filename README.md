@@ -198,7 +198,7 @@ PlacePrep/
 │   ├── middleware/          # Auth, role, premium
 │   └── utils/               # Groq, Cloudinary, Razorpay, Mailer
 │
-└── socket/                  # Socket.IO server (real-time)
+└── test/                    # Test files
 ```
 
 ---
